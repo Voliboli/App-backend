@@ -1,0 +1,33 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Player {
+  id: ID!
+  name: String!
+  votes: String
+}
+
+type PlayerResult {
+  success: Boolean!
+  errors: [String]
+  player: Player
+}
+
+type PlayersResult {
+  success: Boolean!
+  errors: [String]
+  player: [Player]
+}
+
+type Query {
+  getPlayers: PlayersResult!
+  getPlayer(id: ID!): PlayerResult!
+}
+
+type Mutation {
+  createPlayer(name: String!, votes: String): PlayerResult! 
+  updatePlayer(id: ID!, name: String, votes: String): PlayerResult!
+  deletePlayer(id: ID): PlayerResult!
+}
