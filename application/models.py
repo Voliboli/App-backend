@@ -3,7 +3,6 @@
 from . import db
 
 class PlayerModel(db.Model):
-    __tablename__ = 'player'
     id_player = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     votes = db.Column(db.String(1000), nullable=True)

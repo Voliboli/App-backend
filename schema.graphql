@@ -4,7 +4,7 @@ schema {
 }
 
 type Player {
-  id: ID!
+  id_player: ID!
   name: String!
   votes: String
 }
@@ -18,16 +18,16 @@ type PlayerResult {
 type PlayersResult {
   success: Boolean!
   errors: [String]
-  player: [Player]
+  players: [Player]
 }
 
 type Query {
   getPlayers: PlayersResult!
-  getPlayer(id: ID!): PlayerResult!
+  getPlayer(name: String!): PlayerResult!
 }
 
 type Mutation {
   createPlayer(name: String!, votes: String): PlayerResult! 
-  updatePlayer(id: ID!, name: String, votes: String): PlayerResult!
-  deletePlayer(id: ID): PlayerResult!
+  updatePlayer(name: String!, votes: String): PlayerResult!
+  deletePlayer(name: String!): PlayerResult!
 }
