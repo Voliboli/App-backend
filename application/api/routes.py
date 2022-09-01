@@ -22,7 +22,7 @@ schema = make_executable_schema(type_defs, query, mutation, snake_case_fallback_
 def hello():
     return PLAYGROUND_HTML, 200
 
-@players_api_blueprint.route('/test', methods=['POST'])
+@players_api_blueprint.route('/players', methods=['POST'])
 def hi():
     data = request.get_json()
     success, result = graphql_sync(
