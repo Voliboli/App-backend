@@ -4,9 +4,28 @@ schema {
 }
 
 type Player {
-  id_player: ID!
+  id_player: ID
   name: String!
   votes: String
+  total_points: String
+  break_points: String
+  winloss: String
+  total_serve: String
+  error_serve: String
+  points_serve : String
+  total_reception: String
+  error_reception: String
+  pos_reception: String
+  exc_reception: String
+  total_attacks: String
+  error_attacks: String
+  blocked_attacks: String
+  points_attack: String
+  pos_attack: String
+  points_block: String
+  errors: String
+  points_avg: Float
+  attack_avg: Float
 }
 
 type PlayerResult {
@@ -27,7 +46,43 @@ type Query {
 }
 
 type Mutation {
-  createPlayer(name: String!, votes: String): PlayerResult! 
-  updatePlayer(name: String!, votes: String): PlayerResult!
+  createPlayer(name: String!, 
+               votes: String, 
+               total_points: String,
+               break_points: String,
+               winloss: String,
+               total_serve: String,
+               error_serve: String,
+               points_serve : String,
+               total_reception: String,
+               error_reception: String,
+               pos_reception: String,
+               exc_reception: String,
+               total_attacks: String,
+               error_attacks: String,
+               blocked_attacks: String,
+               points_attack: String,
+               pos_attack: String,
+               points_block: String,
+               errors: String): PlayerResult! 
+  updatePlayer(name: String!,
+               votes: String, 
+               total_points: String,
+               break_points: String,
+               winloss: String,
+               total_serve: String,
+               error_serve: String,
+               points_serve : String,
+               total_reception: String,
+               error_reception: String,
+               pos_reception: String,
+               exc_reception: String,
+               total_attacks: String,
+               error_attacks: String,
+               blocked_attacks: String,
+               points_attack: String,
+               pos_attack: String,
+               points_block: String,
+               errors: String): PlayerResult! 
   deletePlayer(name: String!): PlayerResult!
 }
