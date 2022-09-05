@@ -16,7 +16,7 @@ mutation.set_field("updatePlayer", updatePlayer_resolver)
 mutation.set_field("deletePlayer", deletePlayer_resolver)
 
 type_defs = load_schema_from_path("schema.graphql")
-schema = make_executable_schema(type_defs, query, mutation, snake_case_fallback_resolvers)
+schema = make_executable_schema(type_defs, query, mutation)
 
 @players_api_blueprint.route('/', methods=['GET'])
 def hello():

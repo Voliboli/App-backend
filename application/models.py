@@ -3,58 +3,60 @@
 from . import db
 
 class PlayerModel(db.Model):
-    id_player = db.Column(db.Integer, primary_key=True, unique=True)
+    idPlayer = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     votes = db.Column(db.String(1000), nullable=True)
-    total_points = db.Column(db.String(1000), nullable=True)
-    break_points = db.Column(db.String(1000), nullable=True)
+    totalPoints = db.Column(db.String(1000), nullable=True)
+    breakPoints = db.Column(db.String(1000), nullable=True)
     winloss = db.Column(db.String(1000), nullable=True)
-    total_serve = db.Column(db.String(1000), nullable=True)
-    error_serve = db.Column(db.String(1000), nullable=True)
-    points_serve = db.Column(db.String(1000), nullable=True)
-    total_reception = db.Column(db.String(1000), nullable=True)
-    error_reception = db.Column(db.String(1000), nullable=True)
-    pos_reception = db.Column(db.String(1000), nullable=True)
-    exc_reception = db.Column(db.String(1000), nullable=True)
-    total_attacks = db.Column(db.String(1000), nullable=True)
-    error_attacks = db.Column(db.String(1000), nullable=True)
-    blocked_attacks = db.Column(db.String(1000), nullable=True)
-    points_attack = db.Column(db.String(1000), nullable=True)
-    pos_attack = db.Column(db.String(1000), nullable=True)
-    points_block = db.Column(db.String(1000), nullable=True)
+    totalServe = db.Column(db.String(1000), nullable=True)
+    errorServe = db.Column(db.String(1000), nullable=True)
+    pointsServe = db.Column(db.String(1000), nullable=True)
+    totalReception = db.Column(db.String(1000), nullable=True)
+    errorReception = db.Column(db.String(1000), nullable=True)
+    posReception = db.Column(db.String(1000), nullable=True)
+    excReception = db.Column(db.String(1000), nullable=True)
+    totalAttacks = db.Column(db.String(1000), nullable=True)
+    errorAttacks = db.Column(db.String(1000), nullable=True)
+    blockedAttacks = db.Column(db.String(1000), nullable=True)
+    pointsAttack = db.Column(db.String(1000), nullable=True)
+    posAttack = db.Column(db.String(1000), nullable=True)
+    pointsBlock = db.Column(db.String(1000), nullable=True)
     errors = db.Column(db.String(1000), nullable=True)
-    points_avg = db.Column(db.Float, nullable=True)
-    attack_avg = db.Column(db.Float, nullable=True)
+    pointsAvg = db.Column(db.Float, nullable=True)
+    attackAvg = db.Column(db.Float, nullable=True)
+    dateTeam = db.Column(db.String(1000), nullable=True)
 
     def __repr__(self):
-        return '<Player #%s>' % self.id_player
+        return '<Player #%s>' % self.idPlayer
 
     def get_id(self):
         '''DO NOT REMOVE: Required override by Flask internals'''
-        return (self.id_player)
+        return (self.idPlayer)
 
     def to_json(self):
         return {
-            'id_player': self.id_player,
+            'idPlayer': self.idPlayer,
             'name': self.name,
             'votes': self.votes,
-            'total_points': self.total_points,
-            'break_points': self.break_points,
+            'totalPoints': self.totalPoints,
+            'breakPoints': self.breakPoints,
             'winloss': self.winloss,
-            'total_serve': self.total_serve,
-            'error_serve': self.error_serve,
-            'points_serve': self.points_serve,
-            'total_reception': self.total_reception,
-            'error_reception': self.error_reception,
-            'pos_reception': self.pos_reception,
-            'exc_reception': self.exc_reception,
-            'total_attacks': self.total_attacks,
-            'error_attacks': self.error_attacks,
-            'blocked_attacks': self.blocked_attacks,
-            'points_attack': self.points_attack,
-            'pos_attack': self.pos_attack,
-            'points_block': self.points_block,
+            'totalServe': self.totalServe,
+            'errorServe': self.errorServe,
+            'pointsServe': self.pointsServe,
+            'totalReception': self.totalReception,
+            'errorReception': self.errorReception,
+            'posReception': self.posReception,
+            'excReception': self.excReception,
+            'totalAttacks': self.totalAttacks,
+            'errorAttacks': self.errorAttacks,
+            'blockedAttacks': self.blockedAttacks,
+            'pointsAttack': self.pointsAttack,
+            'posAttack': self.posAttack,
+            'pointsBlock': self.pointsBlock,
             'errors': self.errors,
-            'points_avg': self.points_avg,
-            'attack_avg': self.attack_avg
+            'pointsAvg': self.pointsAvg,
+            'attackAvg': self.attackAvg,
+            'dateTeam': self.dateTeam
         }

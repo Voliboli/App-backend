@@ -4,28 +4,29 @@ schema {
 }
 
 type Player {
-  id_player: ID
+  idPlayer: ID
   name: String!
   votes: String
-  total_points: String
-  break_points: String
+  totalPoints: String
+  breakPoints: String
   winloss: String
-  total_serve: String
-  error_serve: String
-  points_serve : String
-  total_reception: String
-  error_reception: String
-  pos_reception: String
-  exc_reception: String
-  total_attacks: String
-  error_attacks: String
-  blocked_attacks: String
-  points_attack: String
-  pos_attack: String
-  points_block: String
+  totalServe: String
+  errorServe: String
+  pointsServe : String
+  totalReception: String
+  errorReception: String
+  posReception: String
+  excReception: String
+  totalAttacks: String
+  errorAttacks: String
+  blockedAttacks: String
+  pointsAttack: String
+  posAttack: String
+  pointsBlock: String
   errors: String
-  points_avg: Float
-  attack_avg: Float
+  pointsAvg: Float
+  attackAvg: Float
+  dateTeam: String
 }
 
 type PlayerResult {
@@ -48,41 +49,41 @@ type Query {
 type Mutation {
   createPlayer(name: String!, 
                votes: String, 
-               total_points: String,
-               break_points: String,
+               totalPoints: String,
+               breakPoints: String,
                winloss: String,
-               total_serve: String,
-               error_serve: String,
-               points_serve : String,
-               total_reception: String,
-               error_reception: String,
-               pos_reception: String,
-               exc_reception: String,
-               total_attacks: String,
-               error_attacks: String,
-               blocked_attacks: String,
-               points_attack: String,
-               pos_attack: String,
-               points_block: String,
-               errors: String): PlayerResult! 
+               totalServe: String,
+               errorServe: String,
+               pointsServe : String,
+               totalReception: String,
+               errorReception: String,
+               posReception: String,
+               excReception: String,
+               totalAttacks: String,
+               errorAttacks: String,
+               blockedAttacks: String,
+               pointsAttack: String,
+               posAttack: String,
+               pointsBlock: String,
+               dateTeam: String): PlayerResult! 
   updatePlayer(name: String!,
                votes: String, 
-               total_points: String,
-               break_points: String,
+               totalPoints: String,
+               breakPoints: String,
                winloss: String,
-               total_serve: String,
-               error_serve: String,
-               points_serve : String,
-               total_reception: String,
-               error_reception: String,
-               pos_reception: String,
-               exc_reception: String,
-               total_attacks: String,
-               error_attacks: String,
-               blocked_attacks: String,
-               points_attack: String,
-               pos_attack: String,
-               points_block: String,
-               errors: String): PlayerResult! 
+               totalServe: String,
+               errorServe: String,
+               pointsServe : String,
+               totalReception: String,
+               errorReception: String,
+               posReception: String,
+               excReception: String,
+               totalAttacks: String,
+               errorAttacks: String,
+               blockedAttacks: String,
+               pointsAttack: String,
+               posAttack: String,
+               pointsBlock: String,
+               dateTeam: String!): PlayerResult! 
   deletePlayer(name: String!): PlayerResult!
 }

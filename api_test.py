@@ -6,11 +6,12 @@ from sgqlc.operation import Operation
 class Player(Type):
     name = String
     votes = String
+    dateTeam = String
 
 class PlayerResult(Type):
-  success = Boolean
-  errors =  list_of(String)
-  player = Player
+    success = Boolean
+    errors =  list_of(String)
+    player = Player
 
 class PlayersResult(Type):
     success = Boolean
@@ -23,7 +24,7 @@ class Query(Type):
 
 class Mutation(Type):
     createPlayer = Field(PlayerResult, args={'name': String, 'votes': String})
-    updatePlayer = Field(PlayerResult, args={'name': String, 'votes': String})
+    updatePlayer = Field(PlayerResult, args={'name': String, 'votes': String, 'dateTeam': String})
     deletePlayer = Field(PlayerResult, args={'name': String})
 
 class TestAPI(unittest.TestCase):
@@ -51,7 +52,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_4_update_player(self):
-        self.mutation.updatePlayer(name='Gaspa', votes='not null')
+        self.mutation.updatePlayer(name='Gaspa', votes='not null', dateTeam='test')
         print(self.mutation)
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         self.assertEqual(resp.status_code, 200)

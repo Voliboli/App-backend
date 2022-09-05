@@ -1,4 +1,3 @@
-from ariadne import convert_kwargs_to_snake_case
 import psycopg2 
 from .. import db
 from ..models import PlayerModel
@@ -18,49 +17,53 @@ def average(x, y):
     array.append(y)
     return sum(array) / len(array)
 
-@convert_kwargs_to_snake_case
 def createPlayer_resolver(obj, 
                           info, 
                           name, 
                           votes=None,
-                          total_points=None,
-                          break_points=None,
+                          totalPoints=None,
+                          breakPoints=None,
                           winloss=None,
-                          total_serve=None,
-                          error_serve=None,
-                          points_serve=None,
-                          total_reception=None,
-                          error_reception=None,
-                          pos_reception=None,
-                          exc_reception=None,
-                          total_attacks=None,
-                          error_attacks=None,
-                          blocked_attacks=None,
-                          points_attack=None,
-                          pos_attack=None,
-                          points_block=None,
-                          errors=None):
+                          totalServe=None,
+                          errorServe=None,
+                          pointsServe=None,
+                          totalReception=None,
+                          errorReception=None,
+                          posReception=None,
+                          excReception=None,
+                          totalAttacks=None,
+                          errorAttacks=None,
+                          blockedAttacks=None,
+                          pointsAttack=None,
+                          posAttack=None,
+                          pointsBlock=None,
+                          dateTeam=None):
     try:
+        if errorServe is None or errorReception is None or errorAttacks is None:
+            errors = 'null'
+        else:
+            errors = int(errorServe) + int(errorReception) + int(errorAttacks)
         player = PlayerModel(
             name=name, 
             votes=votes,
-            total_points=total_points,
-            break_points=break_points,
+            totalPoints=totalPoints,
+            breakPoints=breakPoints,
             winloss=winloss,
-            total_serve=total_serve,
-            error_serve=error_serve,
-            points_serve=points_serve,
-            total_reception=total_reception,
-            error_reception=error_reception,
-            pos_reception=pos_reception,
-            exc_reception=exc_reception,
-            total_attacks=total_attacks,
-            error_attacks=error_attacks,
-            blocked_attacks=blocked_attacks,
-            points_attack=points_attack,
-            pos_attack=pos_attack,
-            points_block=points_block,
-            errors=errors,
+            totalServe=totalServe,
+            errorServe=errorServe,
+            pointsServe=pointsServe,
+            totalReception=totalReception,
+            errorReception=errorReception,
+            posReception=posReception,
+            excReception=excReception,
+            totalAttacks=totalAttacks,
+            errorAttacks=errorAttacks,
+            blockedAttacks=blockedAttacks,
+            pointsAttack=pointsAttack,
+            posAttack=posAttack,
+            pointsBlock=pointsBlock,
+            errors=str(errors),
+            dateTeam=dateTeam,
         )
 
         try:
@@ -84,69 +87,78 @@ def createPlayer_resolver(obj,
 
     return payload
 
-@convert_kwargs_to_snake_case
 def updatePlayer_resolver(obj, 
                           info,
                           name, 
                           votes=None,
-                          total_points=None,
-                          break_points=None,
+                          totalPoints=None,
+                          breakPoints=None,
                           winloss=None,
-                          total_serve=None,
-                          error_serve=None,
-                          points_serve=None,
-                          total_reception=None,
-                          error_reception=None,
-                          pos_reception=None,
-                          exc_reception=None,
-                          total_attacks=None,
-                          error_attacks=None,
-                          blocked_attacks=None,
-                          points_attack=None,
-                          pos_attack=None,
-                          points_block=None,
-                          errors=None):
+                          totalServe=None,
+                          errorServe=None,
+                          pointsServe=None,
+                          totalReception=None,
+                          errorReception=None,
+                          posReception=None,
+                          excReception=None,
+                          totalAttacks=None,
+                          errorAttacks=None,
+                          blockedAttacks=None,
+                          pointsAttack=None,
+                          posAttack=None,
+                          pointsBlock=None,
+                          dateTeam=None):
     try:
         player = PlayerModel.query.filter_by(name=name).first()
         if player:
+            payload = {
+                "success": False,
+                "errors": [f'Player {name} does not exist!']
+            }
+            return payload
+
+        errors = int(errorServe) + int(errorReception) + int(errorAttacks)
+        if dateTeam not in player.dateTeam:
             if votes is not None:
                 player.votes = add_elem_to_string(player.votes, votes)
-            if total_points is not None:
-                player.total_points = add_elem_to_string(player.total_points, total_points)
-                player.points_avg = average(player.total_points, player.points_avg)
-            if break_points is not None:
-                player.break_points = add_elem_to_string(player.break_points, break_points)
+            if totalPoints is not None:
+                player.totalPoints = add_elem_to_string(player.totalPoints, totalPoints)
+                player.pointsAvg = average(player.totalPoints, player.pointsAvg)
+            if breakPoints is not None:
+                player.breakPoints = add_elem_to_string(player.breakPoints, breakPoints)
             if winloss is not None:
                 player.winloss = add_elem_to_string(player.winloss, winloss)
-            if total_serve is not None:
-                player.total_serve = add_elem_to_string(player.total_serve, total_serve)
-            if error_serve is not None:
-                player.error_serve = add_elem_to_string(player.error_serve, error_serve)
-            if points_serve is not None:
-                player.points_serve = add_elem_to_string(player.points_serve, points_serve)
-            if total_reception is not None:
-                player.total_reception = add_elem_to_string(player.total_reception, total_reception)
+            if totalServe is not None:
+                player.totalServe = add_elem_to_string(player.totalServe, totalServe)
+            if errorServe is not None:
+                player.errorServe = add_elem_to_string(player.errorServe, errorServe)
+            if pointsServe is not None:
+                player.pointsServe = add_elem_to_string(player.pointsServe, pointsServe)
+            if totalReception is not None:
+                player.totalReception = add_elem_to_string(player.totalReception, totalReception)
             if error_reception is not None:
                 player.error_reception = add_elem_to_string(player.error_reception, error_reception)
-            if pos_reception is not None:
-                player.pos_reception = add_elem_to_string(player.pos_reception, pos_reception)
-            if exc_reception is not None:
-                player.exc_reception = add_elem_to_string(player.exc_reception, exc_reception)
-            if total_attacks is not None:
-                player.total_attacks = add_elem_to_string(player.total_attacks, total_attacks)
-            if error_attacks is not None:
-                player.error_attacks = add_elem_to_string(player.error_attacks, error_attacks)
-            if blocked_attacks is not None:
-                player.blocked_attacks = add_elem_to_string(player.blocked_attacks, blocked_attacks)
-            if points_attack is not None:
-                player.points_attack = add_elem_to_string(player.points_attack, points_attack)
-            if pos_attack is not None:
-                player.pos_attack = add_elem_to_string(player.pos_attack, pos_attack)
-                player.attack_avg = average(player.pos_attack, player.attack_avg)
-            if points_block is not None:
-                player.points_block = add_elem_to_string(player.points_block, points_block)
-            if errors is not None:
-                player.errors = add_elem_to_string(player.errors, errors)
+            if posReception is not None:
+                player.posReception = add_elem_to_string(player.posReception, posReception)
+            if excReception is not None:
+                player.excReception = add_elem_to_string(player.excReception, excReception)
+            if totalAttacks is not None:
+                player.totalAttacks = add_elem_to_string(player.totalAttacks, totalAttacks)
+            if errorAttacks is not None:
+                player.errorAttacks = add_elem_to_string(player.errorAttacks, errorAttacks)
+            if blockedAttacks is not None:
+                player.blockedAttacks = add_elem_to_string(player.blockedAttacks, blockedAttacks)
+            if pointsAttack is not None:
+                player.pointsAttack = add_elem_to_string(player.pointsAttack, pointsAttack)
+            if posAttack is not None:
+                player.posAttack = add_elem_to_string(player.posAttack, posAttack)
+                player.attackAvg = average(player.posAttack, player.attackAvg)
+            if pointsBlock is not None:
+                player.pointsBlock = add_elem_to_string(player.pointsBlock, pointsBlock)
+            if str(errors) is not None:
+                player.errors = add_elem_to_string(player.errors, str(errors))
+            if dateTeam is not None:
+                player.dateTeam = add_elem_to_string(player.dateTeam, dateTeam)
             db.session.add(player)
             db.session.commit()
             payload = {
@@ -156,7 +168,7 @@ def updatePlayer_resolver(obj,
         else:
             payload = {
                 "success": False,
-                "errors": [f"Player with this id {id_player} not found"]
+                "errors": [f"Stats for player {name} already saved this game"]
             }
     except AttributeError as e:  # todo not found
         payload = {
@@ -165,7 +177,6 @@ def updatePlayer_resolver(obj,
         }
     return payload
 
-@convert_kwargs_to_snake_case
 def deletePlayer_resolver(obj, info, name):
     try:
         player = PlayerModel.query.filter_by(name=name).first()
