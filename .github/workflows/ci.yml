@@ -7,7 +7,6 @@ on:
       - README.md
       - .gitignore
       - api_test.py
-      - docker-compose.yml
 
 jobs:
   build_test_publish:

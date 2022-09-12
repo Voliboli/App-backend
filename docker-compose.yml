@@ -17,7 +17,7 @@ services:
          node_net:
             ipv4_address: ${DATABASE_IP}
    players:
-      image: players:v1.0
+      image: players-voliboli:latest
       ports: 
       - "5000:5000"
       environment:
