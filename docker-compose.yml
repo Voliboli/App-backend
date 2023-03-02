@@ -17,9 +17,11 @@ services:
          node_net:
             ipv4_address: ${DATABASE_IP}
    players:
-      image: players-voliboli:latest
+      build:
+        context: .  
+      image: voliboli-backend:latest
       ports: 
-      - "5000:5000"
+      - ${PORT}:${PORT}
       environment:
         DATABASE_IP: ${DATABASE_IP}
       depends_on:

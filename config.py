@@ -5,16 +5,12 @@ from sqlalchemy.engine.url import URL
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
 
-class Config:
-    STATIC_FOLDER = 'static'
-    TEMPLATES_FOLDER = 'templates'
-
-class ProdConfig(Config):
+class ProdConfig:
     FLASK_ENV = 'production'
     DEBUG = False
     TESTING = False
 
-class DevConfig(Config):
+class DevConfig:
     FLASK_ENV = 'development'
     DEBUG = True
     TESTING = True
@@ -23,13 +19,9 @@ class DevConfig(Config):
             username=environ['PGUSER'],
             password=environ['PGPASSWORD'],
             host=environ['DATABASE_IP'],
-            port=environ['DATABASE_PORT']
+            port=environ['DATABASE_PORT'],
+            database=environ['DATABASE_NAME'],
+            query={}
     )
     PORT = environ['PORT']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    LOGIN_PAGE = "login"
-    SECRET_KEY = "secret"
-    ADMIN_USER = "tp7220"
-    GOOGLE_CLIENT_ID = ""
-    FB_CLIENT_ID = ""
-    FB_CLIENT_SECRET = ""

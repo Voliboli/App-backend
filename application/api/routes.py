@@ -1,7 +1,8 @@
+#!/usr/bin/python3.8
+
 from . import players_api_blueprint
 from ariadne import load_schema_from_path, make_executable_schema, \
                     graphql_sync, snake_case_fallback_resolvers, ObjectType
-from ariadne.constants import PLAYGROUND_HTML
 from flask import request, jsonify, current_app
 from .queries import getPlayers_resolver, getPlayer_resolver
 from .mutations import createPlayer_resolver, updatePlayer_resolver, deletePlayer_resolver
@@ -20,7 +21,7 @@ schema = make_executable_schema(type_defs, query, mutation)
 
 @players_api_blueprint.route('/', methods=['GET'])
 def hello():
-    return PLAYGROUND_HTML, 200
+    return "Welcome to Voliboli!", 200
 
 @players_api_blueprint.route('/players', methods=['POST'])
 def hi():
