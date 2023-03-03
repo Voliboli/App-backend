@@ -19,6 +19,7 @@ importlib-resources = "*"
 zipp = "*"
 importlib-metadata = "*"
 alembic = "*"
+graphql-core = "*"
 
 [dev-packages]
 

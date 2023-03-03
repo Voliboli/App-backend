@@ -3,9 +3,28 @@ schema {
   mutation: Mutation
 }
 
+type Team {
+  id: ID
+  name: String!
+  players: [Player]
+}
+
+type TeamResult {
+  success: Boolean!
+  errors: [String]
+  team: Team
+}
+
+type TeamsResult {
+  success: Boolean!
+  errors: [String]
+  teams: [Team]
+}
+
 type Player {
   idPlayer: ID
   name: String!
+  teamName: String
   votes: String
   totalPoints: String
   breakPoints: String
@@ -42,12 +61,17 @@ type PlayersResult {
 }
 
 type Query {
+  getTeams: TeamsResult!
+  getTeam(name: String!): TeamResult!
   getPlayers: PlayersResult!
   getPlayer(name: String!): PlayerResult!
 }
 
 type Mutation {
+  createTeam(name: String!): TeamResult!
+  deleteTeam(name: String!): TeamResult!
   createPlayer(name: String!, 
+               teamName: String,
                votes: String, 
                totalPoints: String,
                breakPoints: String,

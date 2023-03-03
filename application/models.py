@@ -2,7 +2,22 @@
 
 from . import db
 
-class PlayerModel(db.Model):
+class Team(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    players = db.relationship('Player', backref='team')
+
+    def __repr__(self):
+        return '<Team - %s>' % self.name
+    
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'players': [player for player in self.players],
+        }
+
+class Player(db.Model):
     idPlayer = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     votes = db.Column(db.String(1000), nullable=True)
@@ -26,9 +41,10 @@ class PlayerModel(db.Model):
     pointsAvg = db.Column(db.Float, nullable=True)
     attackAvg = db.Column(db.Float, nullable=True)
     dateTeam = db.Column(db.String(1000), nullable=True)
+    teamID = db.Column(db.Integer, db.ForeignKey('team.id'))
 
     def __repr__(self):
-        return '<Player #%s>' % self.idPlayer
+        return '<Player - %s>' % self.name
 
     def get_id(self):
         '''DO NOT REMOVE: Required override by Flask internals'''
@@ -58,5 +74,6 @@ class PlayerModel(db.Model):
             'errors': self.errors,
             'pointsAvg': self.pointsAvg,
             'attackAvg': self.attackAvg,
-            'dateTeam': self.dateTeam
+            'dateTeam': self.dateTeam,
+            'teamID': self.teamID
         }

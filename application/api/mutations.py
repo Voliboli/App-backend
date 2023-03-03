@@ -1,6 +1,7 @@
+import sqlalchemy
 import psycopg2 
 from .. import db
-from ..models import PlayerModel
+from ..models import *
 
 def add_elem_to_string(string, elem):
     if string is None:
@@ -17,9 +18,58 @@ def average(x, y):
     array.append(y)
     return sum(array) / len(array)
 
+def createTeam_resolver(obj, 
+                        info,
+                        name):
+    team = Team.query.filter_by(name=name).first()
+    if team:
+         payload = {
+            "success": False,
+            "errors": [f"Team with ID {team} already exists"]
+        }
+    else:
+        team = Team(name=name)
+        try:
+            db.session.add(team)
+            db.session.commit()
+            payload = {
+                "success": True,
+                "team": team.to_json()
+            }
+        except:
+            payload = {
+                "success": False,
+                "errors": ["Team already exists"]
+            }
+    return payload
+
+def deleteTeam_resolver(obj, info, name):
+    try:
+        team = Team.query.filter_by(name=name).first()
+        if team:
+            db.session.delete(team)
+            db.session.commit()
+            payload = {
+                "success": True, 
+                "team": team.to_json()
+            }
+            return payload
+        else:
+            payload = {
+                "success": False,
+                "errors": [f"Team with ID {team} not found"]
+            }
+    except AttributeError as e:
+        payload = {
+            "success": False,
+            "errors": [e]
+        }
+    return payload
+
 def createPlayer_resolver(obj, 
-                          info, 
-                          name, 
+                          info,
+                          name,
+                          teamName=None, 
                           votes=None,
                           totalPoints=None,
                           breakPoints=None,
@@ -38,12 +88,22 @@ def createPlayer_resolver(obj,
                           posAttack=None,
                           pointsBlock=None,
                           dateTeam=None):
+
     try:
         if errorServe is None or errorReception is None or errorAttacks is None:
             errors = 'null'
         else:
             errors = int(errorServe) + int(errorReception) + int(errorAttacks)
-        player = PlayerModel(
+
+        team = Team.query.filter_by(name=teamName).first()
+        if team is None:
+            payload = {
+                "success": False,
+                "errors": ["Players team doesn't exist"]
+            }
+            return payload
+
+        player = Player(
             name=name, 
             votes=votes,
             totalPoints=totalPoints,
@@ -64,19 +124,25 @@ def createPlayer_resolver(obj,
             pointsBlock=pointsBlock,
             errors=str(errors),
             dateTeam=dateTeam,
+            teamID=team.id
         )
-
-        try:
-            db.session.add(player)
-            db.session.commit()
-            payload = {
-                "success": True,
-                "player": player.to_json()
-            }
-        except:
+        if player in Player.query.all():
             payload = {
                 "success": False,
                 "errors": ["Player already exists"]
+            }
+        else:
+            try:
+                db.session.add(player)
+                db.session.commit()
+                payload = {
+                    "success": True,
+                    "player": player.to_json()
+                }
+            except (psycopg2.errors.UniqueViolation, sqlalchemy.exc.IntegrityError) as e:
+                payload = {
+                "success": False,
+                "errors": ["Failed to add player to the database"]
             }
 
     except ValueError as e:  
@@ -84,12 +150,13 @@ def createPlayer_resolver(obj,
             "success": False,
             "errors": [e]
         }
-
+ 
     return payload
 
 def updatePlayer_resolver(obj, 
                           info,
                           name, 
+                          teamName=None,
                           votes=None,
                           totalPoints=None,
                           breakPoints=None,
@@ -109,7 +176,7 @@ def updatePlayer_resolver(obj,
                           pointsBlock=None,
                           dateTeam=None):
     try:
-        player = PlayerModel.query.filter_by(name=name).first()
+        player = Player.query.filter_by(name=name).first()
         if player:
             payload = {
                 "success": False,
@@ -136,8 +203,8 @@ def updatePlayer_resolver(obj,
                 player.pointsServe = add_elem_to_string(player.pointsServe, pointsServe)
             if totalReception is not None:
                 player.totalReception = add_elem_to_string(player.totalReception, totalReception)
-            if error_reception is not None:
-                player.error_reception = add_elem_to_string(player.error_reception, error_reception)
+            if errorReception is not None:
+                player.error_reception = add_elem_to_string(player.error_reception, errorReception)
             if posReception is not None:
                 player.posReception = add_elem_to_string(player.posReception, posReception)
             if excReception is not None:
@@ -159,6 +226,9 @@ def updatePlayer_resolver(obj,
                 player.errors = add_elem_to_string(player.errors, str(errors))
             if dateTeam is not None:
                 player.dateTeam = add_elem_to_string(player.dateTeam, dateTeam)
+            if teamName is not None:
+                team = Team.query.filter_by(name=teamName).first()
+                player.teamID = team.id
             db.session.add(player)
             db.session.commit()
             payload = {
@@ -179,7 +249,7 @@ def updatePlayer_resolver(obj,
 
 def deletePlayer_resolver(obj, info, name):
     try:
-        player = PlayerModel.query.filter_by(name=name).first()
+        player = Player.query.filter_by(name=name).first()
         if player:
             db.session.delete(player)
             db.session.commit()
@@ -191,7 +261,7 @@ def deletePlayer_resolver(obj, info, name):
         else:
             payload = {
                 "success": False,
-                "errors": [f"Player with this id {id_player} not found"]
+                "errors": [f"Player with ID {player} not found"]
             }
     except AttributeError as e:
         payload = {
