@@ -5,7 +5,7 @@ from sgqlc.operation import Operation
 
 class Player(Type):
     name = String
-    votes = String
+    teamName = String
 
 class PlayerResult(Type):
     success = Boolean
@@ -39,7 +39,7 @@ class Query(Type):
 class Mutation(Type):
     createTeam = Field(TeamResult, args={'name': String})
     deleteTeam = Field(TeamResult, args={'name': String})
-    createPlayer = Field(PlayerResult, args={'name': String, 'teamName': String, 'votes': String})
+    createPlayer = Field(PlayerResult, args={'name': String, 'teamName': String})
     updatePlayer = Field(PlayerResult, args={'name': String, 'votes': String, 'dateTeam': String})
     deletePlayer = Field(PlayerResult, args={'name': String})
 
@@ -62,25 +62,25 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(resp.json()["data"]["createTeam"]["success"])
         
     def test_c_create_player(self):
-        self.mutation.createPlayer(name='Mark', teamName='Calcit Volley', votes='null')
+        self.mutation.createPlayer(name='Mark', teamName='Calcit Volley')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         print(resp.json())
         self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
 
     def test_d_create_player(self):
-        self.mutation.createPlayer(name='Teo', teamName='Calcit Volley', votes='null')
+        self.mutation.createPlayer(name='Teo', teamName='Calcit Volley')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         print(resp.json())
         self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
 
     def test_e_create_player(self):
-        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley', votes='null')
+        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         print(resp.json())
         self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
 
     def test_f_create_preexist_player(self):
-        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley', votes='null')
+        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         print(resp.json())
         self.assertFalse(resp.json()["data"]["createPlayer"]["success"])

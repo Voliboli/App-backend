@@ -4,8 +4,6 @@ from .. import db
 from ..models import *
 
 def add_elem_to_string(string, elem):
-    if string is None:
-        return elem
     return string + ',' + elem
 
 def average(x, y):
@@ -69,32 +67,9 @@ def deleteTeam_resolver(obj, info, name):
 def createPlayer_resolver(obj, 
                           info,
                           name,
-                          teamName=None, 
-                          votes=None,
-                          totalPoints=None,
-                          breakPoints=None,
-                          winloss=None,
-                          totalServe=None,
-                          errorServe=None,
-                          pointsServe=None,
-                          totalReception=None,
-                          errorReception=None,
-                          posReception=None,
-                          excReception=None,
-                          totalAttacks=None,
-                          errorAttacks=None,
-                          blockedAttacks=None,
-                          pointsAttack=None,
-                          posAttack=None,
-                          pointsBlock=None,
-                          dateTeam=None):
+                          teamName):
 
     try:
-        if errorServe is None or errorReception is None or errorAttacks is None:
-            errors = 'null'
-        else:
-            errors = int(errorServe) + int(errorReception) + int(errorAttacks)
-
         team = Team.query.filter_by(name=teamName).first()
         if team is None:
             payload = {
@@ -105,25 +80,27 @@ def createPlayer_resolver(obj,
 
         player = Player(
             name=name, 
-            votes=votes,
-            totalPoints=totalPoints,
-            breakPoints=breakPoints,
-            winloss=winloss,
-            totalServe=totalServe,
-            errorServe=errorServe,
-            pointsServe=pointsServe,
-            totalReception=totalReception,
-            errorReception=errorReception,
-            posReception=posReception,
-            excReception=excReception,
-            totalAttacks=totalAttacks,
-            errorAttacks=errorAttacks,
-            blockedAttacks=blockedAttacks,
-            pointsAttack=pointsAttack,
-            posAttack=posAttack,
-            pointsBlock=pointsBlock,
-            errors=str(errors),
-            dateTeam=dateTeam,
+            votes='',
+            totalPoints='',
+            breakPoints='',
+            winloss='',
+            totalServe='',
+            errorServe='',
+            pointsServe='',
+            totalReception='',
+            errorReception='',
+            posReception='',
+            excReception='',
+            totalAttacks='',
+            errorAttacks='',
+            blockedAttacks='',
+            pointsAttack='',
+            posAttack='',
+            pointsBlock='',
+            errors='',
+            dateTeam='',
+            pointsAvg=0,
+            attackAvg=0,
             teamID=team.id
         )
         if player in Player.query.all():
@@ -155,8 +132,7 @@ def createPlayer_resolver(obj,
 
 def updatePlayer_resolver(obj, 
                           info,
-                          name, 
-                          teamName=None,
+                          name,
                           votes=None,
                           totalPoints=None,
                           breakPoints=None,
@@ -191,9 +167,6 @@ def updatePlayer_resolver(obj,
             }
             return payload
 
-        if player.dateTeam is None:
-            player.dateTeam = ''
-            
         if dateTeam not in player.dateTeam:
             if votes is not None:
                 player.votes = add_elem_to_string(player.votes, votes)
@@ -236,9 +209,6 @@ def updatePlayer_resolver(obj,
                 player.errors = add_elem_to_string(player.errors, errors)
             if dateTeam is not None:
                 player.dateTeam = add_elem_to_string(player.dateTeam, dateTeam)
-            if teamName is not None:
-                team = Team.query.filter_by(name=teamName).first()
-                player.teamID = team.id
             db.session.add(player)
             db.session.commit()
             payload = {
