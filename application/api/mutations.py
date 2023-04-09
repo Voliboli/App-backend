@@ -177,14 +177,23 @@ def updatePlayer_resolver(obj,
                           dateTeam=None):
     try:
         player = Player.query.filter_by(name=name).first()
-        if player:
+        if not player:
             payload = {
                 "success": False,
                 "errors": [f'Player {name} does not exist!']
             }
             return payload
 
-        errors = int(errorServe) + int(errorReception) + int(errorAttacks)
+        if dateTeam is None:
+            payload = {
+                "success": False,
+                "errors": ["Date of the statistics is required! Aborting."]
+            }
+            return payload
+
+        if player.dateTeam is None:
+            player.dateTeam = ''
+            
         if dateTeam not in player.dateTeam:
             if votes is not None:
                 player.votes = add_elem_to_string(player.votes, votes)
@@ -222,8 +231,9 @@ def updatePlayer_resolver(obj,
                 player.attackAvg = average(player.posAttack, player.attackAvg)
             if pointsBlock is not None:
                 player.pointsBlock = add_elem_to_string(player.pointsBlock, pointsBlock)
-            if str(errors) is not None:
-                player.errors = add_elem_to_string(player.errors, str(errors))
+            if errorServe is not None and errorReception is not None and errorAttacks is not None: 
+                errors = str(int(errorServe) + int(errorReception) + int(errorAttacks))
+                player.errors = add_elem_to_string(player.errors, errors)
             if dateTeam is not None:
                 player.dateTeam = add_elem_to_string(player.dateTeam, dateTeam)
             if teamName is not None:

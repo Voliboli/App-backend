@@ -49,53 +49,107 @@ class TestAPI(unittest.TestCase):
         self.query = Operation(Query)
         self.mutation = Operation(Mutation)
 
-    def test_1_create_team(self):
+    def test_a_create_team(self):
         self.mutation.createTeam(name='Calcit Volley')
-        #print(self.mutation)
         resp = requests.post(self.BASE + "/teams", json={'query': str(self.mutation)})
-        self.assertEqual(resp.status_code, 200)
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["createTeam"]["success"])
+
+    def test_b_create_team(self):
+        self.mutation.createTeam(name='ACH Volley')
+        resp = requests.post(self.BASE + "/teams", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["createTeam"]["success"])
         
-    def test_2_create_player(self):
+    def test_c_create_player(self):
         self.mutation.createPlayer(name='Mark', teamName='Calcit Volley', votes='null')
-        #print(self.mutation)
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
-        #print(resp.json())
-        self.assertEqual(resp.status_code, 200)
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
 
-    def test_3_get_teams(self):
+    def test_d_create_player(self):
+        self.mutation.createPlayer(name='Teo', teamName='Calcit Volley', votes='null')
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
+
+    def test_e_create_player(self):
+        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley', votes='null')
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["createPlayer"]["success"])
+
+    def test_f_create_preexist_player(self):
+        self.mutation.createPlayer(name='Klemen', teamName='ACH Volley', votes='null')
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertFalse(resp.json()["data"]["createPlayer"]["success"])
+
+    def test_g_get_teams(self):
         self.query.getTeams()
-        print(self.query)
         resp = requests.post(self.BASE + "/teams", json={'query': str(self.query)})
-        #print(resp.json())
-        self.assertEqual(resp.status_code, 200)
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["getTeams"]["success"])
 
-    '''
-    def test_4_get_player(self):
+    def test_h_get_player(self):
         self.query.getPlayer(name='Mark')
-        print(self.query)
         resp = requests.post(self.BASE + "/players", json={'query': str(self.query)})
-        #print(resp.json())
-        self.assertEqual(resp.status_code, 200)
-    
-    def test_5_get_players(self):
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["getPlayer"]["success"])
+      
+    def test_i_get_players(self):
         self.query.getPlayers()
-        print(self.query)
         resp = requests.post(self.BASE + "/players", json={'query': str(self.query)})
-        #print(resp.json())
-        self.assertEqual(resp.status_code, 200)
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["getPlayers"]["success"])
     
-    def test_4_update_player(self):
-        self.mutation.updatePlayer(name='Gaspa', votes='not null', dateTeam='test')
-        print(self.mutation)
+    def test_j_update_player(self):
+        self.mutation.updatePlayer(name='Mark', votes='not null', dateTeam='test')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
-        self.assertEqual(resp.status_code, 200)
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["updatePlayer"]["success"])
 
-    def test_5_delete_player(self):
-        self.mutation.deletePlayer(name='Gaspa')
-        print(self.mutation)
+    def test_k_get_players(self):
+        self.query.getPlayers()
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.query)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["getPlayers"]["success"])
+
+    def test_l_delete_player(self):
+        self.mutation.deletePlayer(name='Teo')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
-        self.assertEqual(resp.status_code, 200)
-    '''
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["deletePlayer"]["success"])
+
+    def test_m_delete_player(self):
+        self.mutation.deletePlayer(name='Mark')
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["deletePlayer"]["success"])
+    
+    def test_n_delete_player(self):
+        self.mutation.deletePlayer(name='Klemen')
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["deletePlayer"]["success"])
+
+    def test_o_delete_team(self):
+        self.mutation.deleteTeam(name='Calcit Volley')
+        resp = requests.post(self.BASE + "/teams", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["deleteTeam"]["success"])
+
+    def test_p_delete_team(self):
+        self.mutation.deleteTeam(name='ACH Volley')
+        resp = requests.post(self.BASE + "/teams", json={'query': str(self.mutation)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["deleteTeam"]["success"])
+
+    def test_r_get_players(self):
+        self.query.getPlayers()
+        resp = requests.post(self.BASE + "/players", json={'query': str(self.query)})
+        print(resp.json())
+        self.assertTrue(resp.json()["data"]["getPlayers"]["success"])
 
 if __name__ == '__main__':
     unittest.main()
