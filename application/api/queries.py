@@ -1,5 +1,4 @@
 from ..models import *
-#from ariadne import convert_kwargs_to_snake_case
 
 def getPlayer_resolver(obj, info, name):
     try:

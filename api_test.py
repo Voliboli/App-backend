@@ -1,47 +1,7 @@
 import requests
 import unittest
-from sgqlc.types import String, Type, Field, ID, Boolean, list_of
+from voliboli_sgqlc_types.main import Mutation, Query
 from sgqlc.operation import Operation
-
-class Player(Type):
-    name = String
-    teamName = String
-
-class PlayerResult(Type):
-    success = Boolean
-    errors =  list_of(String)
-    player = Player
-
-class PlayersResult(Type):
-    success = Boolean
-    errors = list_of(String)
-    players = list_of(Player)
-
-class Team(Type):
-    name = String
-    players = list_of(Player)
-
-class TeamResult(Type):
-    success = Boolean
-    errors = list_of(String)
-    team = Team
-
-class TeamsResult(Type):
-    success = Boolean
-    errors = list_of(String)
-    teams = list_of(Team)
-
-class Query(Type):
-    getTeams = Field(TeamsResult)
-    getPlayer = Field(PlayerResult, args={'name': String})
-    getPlayers = Field(PlayersResult)
-
-class Mutation(Type):
-    createTeam = Field(TeamResult, args={'name': String})
-    deleteTeam = Field(TeamResult, args={'name': String})
-    createPlayer = Field(PlayerResult, args={'name': String, 'teamName': String})
-    updatePlayer = Field(PlayerResult, args={'name': String, 'votes': String, 'dateTeam': String})
-    deletePlayer = Field(PlayerResult, args={'name': String})
 
 class TestAPI(unittest.TestCase):
     def setUp(self):
