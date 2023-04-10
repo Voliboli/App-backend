@@ -70,8 +70,7 @@ type Query {
 type Mutation {
   createTeam(name: String!): TeamResult!
   deleteTeam(name: String!): TeamResult!
-  createPlayer(name: String!, 
-               teamName: String): PlayerResult! 
+  createPlayer(name: String!, teamName: String): PlayerResult! 
   updatePlayer(name: String!,
                votes: String, 
                totalPoints: String,
