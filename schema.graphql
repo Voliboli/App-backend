@@ -45,7 +45,8 @@ type Player {
   errors: String
   pointsAvg: Float
   attackAvg: Float
-  dateTeam: String
+  opponent: String
+  date: String
 }
 
 type PlayerResult {
@@ -89,6 +90,7 @@ type Mutation {
                pointsAttack: String,
                posAttack: String,
                pointsBlock: String,
-               dateTeam: String!): PlayerResult! 
+               opponent: String,
+               date: String!): PlayerResult! 
   deletePlayer(name: String!): PlayerResult!
 }

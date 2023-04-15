@@ -100,7 +100,8 @@ def createPlayer_resolver(obj,
             posAttack='',
             pointsBlock='',
             errors='',
-            dateTeam='',
+            date='',
+            opponent='',
             pointsAvg=0,
             attackAvg=0,
             teamID=team.id
@@ -152,7 +153,8 @@ def updatePlayer_resolver(obj,
                           pointsAttack=None,
                           posAttack=None,
                           pointsBlock=None,
-                          dateTeam=None):
+                          opponent=None,
+                          date=None):
     try:
         player = Player.query.filter_by(name=name).first()
         if not player:
@@ -162,14 +164,14 @@ def updatePlayer_resolver(obj,
             }
             return payload
 
-        if dateTeam is None:
+        if date is None:
             payload = {
                 "success": False,
                 "errors": ["Date of the statistics is required! Aborting."]
             }
             return payload
 
-        if dateTeam not in player.dateTeam:
+        if date not in player.date:
             if votes is not None:
                 player.votes = add_elem_to_string(player.votes, votes)
             if totalPoints is not None:
@@ -206,11 +208,13 @@ def updatePlayer_resolver(obj,
                 #player.attackAvg = average(player.posAttack, player.attackAvg)
             if pointsBlock is not None:
                 player.pointsBlock = add_elem_to_string(player.pointsBlock, pointsBlock)
+            if opponent is not None:
+                player.opponent = add_elem_to_string(player.opponent, opponent)
             if errorServe not in ['.', None] and errorReception not in ['.', None] and errorAttacks not in ['.', None]: 
                 errors = str(int(errorServe) + int(errorReception) + int(errorAttacks))
                 player.errors = add_elem_to_string(player.errors, errors)
-            if dateTeam is not None:
-                player.dateTeam = add_elem_to_string(player.dateTeam, dateTeam)
+            if date is not None:
+                player.date = add_elem_to_string(player.date, date)
             db.session.add(player)
             db.session.commit()
             payload = {
