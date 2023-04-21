@@ -1,6 +1,4 @@
-# Run Microservice
-
-	DATABASE_IP=172.34.1.2 docker-compose up
+# Voliboli backend
 
 ## Install dependecies
 
