@@ -3,24 +3,6 @@ schema {
   mutation: Mutation
 }
 
-type Team {
-  id: ID
-  name: String!
-  players: [Player]
-}
-
-type TeamResult {
-  success: Boolean!
-  errors: [String]
-  team: Team
-}
-
-type TeamsResult {
-  success: Boolean!
-  errors: [String]
-  teams: [Team]
-}
-
 type Player {
   idPlayer: ID
   name: String!
@@ -58,6 +40,24 @@ type PlayersResult {
   success: Boolean!
   errors: [String]
   players: [Player]
+}
+
+type Team {
+  id: ID
+  name: String!
+  players: [Player]
+}
+
+type TeamResult {
+  success: Boolean!
+  errors: [String]
+  team: Team
+}
+
+type TeamsResult {
+  success: Boolean!
+  errors: [String]
+  teams: [Team]
 }
 
 type Query {

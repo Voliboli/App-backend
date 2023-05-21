@@ -14,7 +14,7 @@ class Team(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'players': [player for player in self.players],
+            'players': [player.to_json() for player in self.players],
         }
 
 class Player(db.Model):

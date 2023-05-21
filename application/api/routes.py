@@ -2,7 +2,7 @@
 
 from . import players_api_blueprint
 from ariadne import load_schema_from_path, make_executable_schema, \
-                    graphql_sync, snake_case_fallback_resolvers, ObjectType
+                    graphql_sync, ObjectType
 from flask import request, jsonify, current_app
 from .queries import getPlayers_resolver, getPlayer_resolver, getTeam_resolver, getTeams_resolver
 from .mutations import createPlayer_resolver, updatePlayer_resolver, deletePlayer_resolver, createTeam_resolver, deleteTeam_resolver
