@@ -13,7 +13,7 @@ type Player {
   winloss: String
   totalServe: String
   errorServe: String
-  pointsServe : String
+  pointsServe: String
   totalReception: String
   errorReception: String
   posReception: String
@@ -79,7 +79,7 @@ type Mutation {
                winloss: String,
                totalServe: String,
                errorServe: String,
-               pointsServe : String,
+               pointsServe: String,
                totalReception: String,
                errorReception: String,
                posReception: String,

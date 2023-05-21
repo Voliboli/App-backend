@@ -8,7 +8,7 @@ from sgqlc.operation import Operation
 class TestAPI(unittest.TestCase):
     
     def setUp(self):
-        self.BASE = "http://172.35.1.3:5000"
+        self.BASE = "http://172.34.1.3:5000"
         self.query = Operation(Query)
         self.mutation = Operation(Mutation)
         self.query.__to_graphql__(auto_select_depth=3)
@@ -25,7 +25,7 @@ class TestAPI(unittest.TestCase):
         resp = requests.post(self.BASE + "/teams", json={'query': str(self.mutation)})
         #print(resp.json())
         self.assertTrue(resp.json()["data"]["createTeam"]["success"])
-        
+       
     def test_c_create_player(self):
         self.mutation.createPlayer(name='Mark', teamName='Calcit Volley')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
@@ -69,7 +69,7 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(resp.json()["data"]["getPlayers"]["success"])
     
     def test_j_update_player(self):
-        self.mutation.updatePlayer(name='Mark', votes='not null', dateTeam='test')
+        self.mutation.updatePlayer(name='Mark', votes='not null', date='test')
         resp = requests.post(self.BASE + "/players", json={'query': str(self.mutation)})
         #print(resp.json())
         self.assertTrue(resp.json()["data"]["updatePlayer"]["success"])
@@ -83,7 +83,7 @@ class TestAPI(unittest.TestCase):
     def test_l_get_team(self):
         self.query.getTeam(name="Calcit Volley")
         resp = requests.post(self.BASE + "/teams", json={'query': str(self.query.__to_graphql__(auto_select_depth=3))})
-        print(resp.json())
+        #print(resp.json())
         self.assertTrue(resp.json()["data"]["getTeam"]["success"])
 
     def test_m_delete_player(self):
