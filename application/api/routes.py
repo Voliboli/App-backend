@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 from . import players_api_blueprint
 from ariadne import load_schema_from_path, make_executable_schema, \
                     graphql_sync, ObjectType

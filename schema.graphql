@@ -27,7 +27,8 @@ type Player {
   errors: String
   pointsAvg: Float
   attackAvg: Float
-  dateTeam: String
+  opponent: String
+  date: String
 }
 
 type PlayerResult {
@@ -70,26 +71,7 @@ type Query {
 type Mutation {
   createTeam(name: String!): TeamResult!
   deleteTeam(name: String!): TeamResult!
-  createPlayer(name: String!, 
-               teamName: String,
-               votes: String, 
-               totalPoints: String,
-               breakPoints: String,
-               winloss: String,
-               totalServe: String,
-               errorServe: String,
-               pointsServe : String,
-               totalReception: String,
-               errorReception: String,
-               posReception: String,
-               excReception: String,
-               totalAttacks: String,
-               errorAttacks: String,
-               blockedAttacks: String,
-               pointsAttack: String,
-               posAttack: String,
-               pointsBlock: String,
-               dateTeam: String): PlayerResult! 
+  createPlayer(name: String!, teamName: String): PlayerResult! 
   updatePlayer(name: String!,
                votes: String, 
                totalPoints: String,
@@ -108,6 +90,7 @@ type Mutation {
                pointsAttack: String,
                posAttack: String,
                pointsBlock: String,
-               dateTeam: String!): PlayerResult! 
+               opponent: String,
+               date: String!): PlayerResult! 
   deletePlayer(name: String!): PlayerResult!
 }

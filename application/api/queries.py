@@ -1,6 +1,5 @@
 from ..models import *
 
-
 def getPlayer_resolver(obj, info, name):
     try:
         player = Player.query.filter_by(name=name).first()

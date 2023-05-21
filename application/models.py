@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from . import db
 
 class Team(db.Model):
@@ -40,7 +39,8 @@ class Player(db.Model):
     errors = db.Column(db.String(1000), nullable=True)
     pointsAvg = db.Column(db.Float, nullable=True)
     attackAvg = db.Column(db.Float, nullable=True)
-    dateTeam = db.Column(db.String(1000), nullable=True)
+    date = db.Column(db.String(1000), nullable=True)
+    opponent = db.Column(db.String(1000), nullable=True)
     teamID = db.Column(db.Integer, db.ForeignKey('team.id'))
 
     def __repr__(self):
@@ -74,6 +74,7 @@ class Player(db.Model):
             'errors': self.errors,
             'pointsAvg': self.pointsAvg,
             'attackAvg': self.attackAvg,
-            'dateTeam': self.dateTeam,
+            'date': self.date,
+            'opponent': self.opponent,
             'teamID': self.teamID
         }
