@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+# PORT from .env
 ARG PORT
 EXPOSE $PORT
 
