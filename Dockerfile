@@ -1,18 +1,15 @@
 FROM python:3.12-slim
 
-RUN pip install pipenv
-
 ENV PROJECT_DIR /usr/src/backend_api
 
 WORKDIR ${PROJECT_DIR}
 
-COPY Pipfile .
-COPY Pipfile.lock .
-RUN pipenv install --deploy --ignore-pipfile
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 COPY . .
 
 ARG PORT
 EXPOSE $PORT
 
-CMD ["pipenv", "run", "python", "wsgi.py"]
+CMD ["python", "wsgi.py"]
