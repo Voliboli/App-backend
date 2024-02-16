@@ -16,11 +16,11 @@ class DevConfig:
     TESTING = True
     SQLALCHEMY_DATABASE_URI = URL(
             drivername='postgresql',
-            username=environ['PGUSER'],
-            password=environ['PGPASSWORD'],
+            username=environ['POSTGRES_USERNAME'],
+            password=environ['USER_PASSWORD'],
             host=environ['DATABASE_IP'],
-            port=environ['DATABASE_PORT'],
-            database=environ['DATABASE_NAME'],
+            port=5432,
+            database=environ['POSTGRES_DATABASE'],
             query={}
     )
     PORT = environ['PORT']
